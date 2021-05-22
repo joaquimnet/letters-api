@@ -23,10 +23,13 @@ module.exports = {
       },
       async handler({ req, res, params }) {
         const { slug } = params;
-        const count = await Letter.count({ slug });
-        res.send({
-          exists: count > 0,
-        });
+        const letter = await Letter.findOne({ slug }).select('-message');
+
+        if (!letter) {
+          return res.status(404).send({ error: 'not_found' });
+        }
+
+        res.send(letter.toObject());
       },
     },
     readLetter: {
