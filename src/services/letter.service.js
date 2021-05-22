@@ -28,7 +28,10 @@ module.exports = {
           return res.status(404).send({ error: 'not_found' });
         }
 
-        return res.send(letter.toObject());
+        const read = letter.toObject();
+        await letter.delete();
+
+        return res.send(read);
       },
     },
     createLetter: {
