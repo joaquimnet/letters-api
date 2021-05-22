@@ -29,7 +29,9 @@ module.exports = {
         }
 
         const read = letter.toObject();
-        await letter.delete();
+        letter.message = '[this message has faded]';
+        letter.readOn = new Date();
+        await letter.save();
 
         return res.send(read);
       },
