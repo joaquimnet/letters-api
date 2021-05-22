@@ -11,13 +11,28 @@ module.exports = {
 
   routes: {
     'POST /letter': 'createLetter',
-    'GET /letter/:slug': 'getLetterBySlug',
+    'GET /letter/:slug': 'touchLetter',
+    'DELETE /letter/:slug': 'readLetter',
   },
 
   actions: {
-    getLetterBySlug: {
+    touchLetter: {
       params: {
         slug: 'string',
+        $$strict: true,
+      },
+      async handler({ req, res, params }) {
+        const { slug } = params;
+        const count = await Letter.count({ slug });
+        res.send({
+          exists: count > 0,
+        });
+      },
+    },
+    readLetter: {
+      params: {
+        slug: 'string',
+        $$strict: true,
       },
       async handler({ req, res, params }) {
         const { slug } = params;
