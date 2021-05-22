@@ -48,7 +48,7 @@ module.exports = {
           consola.error(err);
           return res.status(500).send({ error: 'unexpected_error' });
         }
-        res.status(201).send(letter.toObject());
+        res.status(201).send({ slug: letter.slug });
       },
     },
   },
